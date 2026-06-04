@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: presence-service
+  namespace: hrms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: presence-service
+  template:
+    metadata:
+      labels:
+        app: presence-service
+    spec:
+      containers:
+        - name: presence-service
+          image: ihab0/presence-service:latest
+          ports:
+            - containerPort: 8099

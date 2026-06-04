@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: leave-service
+  namespace: hrms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: leave-service
+  template:
+    metadata:
+      labels:
+        app: leave-service
+    spec:
+      containers:
+        - name: leave-service
+          image: ihab0/leave-service:latest
+          ports:
+            - containerPort: 8093
+

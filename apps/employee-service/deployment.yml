@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employee-service
+  namespace: hrms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employee-service
+  template:
+    metadata:
+      labels:
+        app: employee-service
+    spec:
+      containers:
+        - name: employee-service
+          image: ihab0/employee-service:latest
+          ports:
+            - containerPort: 8091
+          env:
+            - name: DB_HOST
+              value: "mysql.platform"
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: "kafka.platform:9092"
