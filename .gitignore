@@ -1,0 +1,16 @@
+# Secrets Kubernetes non chiffrés
+secret.yaml
+secrets.yaml
+
+# Env files
+.env
+.env.*
+
+# Spring
+application-local.yml
+application-prod.yml
+
+# Private keys
+*.pem
+*.key
+id_rsa

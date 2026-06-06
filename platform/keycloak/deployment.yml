@@ -3,25 +3,91 @@ kind: Deployment
 metadata:
   name: keycloak
   namespace: platform
+  labels:
+    app: keycloak
 spec:
   replicas: 1
+
   selector:
     matchLabels:
       app: keycloak
+
   template:
     metadata:
       labels:
         app: keycloak
+
     spec:
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak:25.0.1
-          args: ["start-dev"]
+
+          args:
+            - start
+            - --import-realm
+
           ports:
             - containerPort: 8080
+
           env:
             - name: KEYCLOAK_ADMIN
-              value: admin
-            - name: KEYCLOAK_ADMIN_PASSWORD
-              value: admin
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret
+                  key: KEYCLOAK_ADMIN
 
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret
+                  key: KEYCLOAK_ADMIN_PASSWORD
+
+            - name: KC_DB
+              value: mysql
+
+            - name: KC_DB_URL
+              value: jdbc:mysql://mysql-keycloak:3306/keycloak
+
+            - name: KC_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret
+                  key: DB_USERNAME
+
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret
+                  key: DB_PASSWORD
+
+          volumeMounts:
+            - name: realm-config
+              mountPath: /opt/keycloak/data/import
+
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 120
+            periodSeconds: 20
+
+      volumes:
+        - name: realm-config
+          configMap:
+            name: keycloak-realm-config
