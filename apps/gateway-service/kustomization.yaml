@@ -8,3 +8,6 @@ resources:
 
 
 
+images:
+  - name: ihab0/gateway-service
+    newTag: latest

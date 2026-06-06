@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: organisation-service
+  namespace: hrms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: organisation-service
+  template:
+    metadata:
+      labels:
+        app: organisation-service
+    spec:
+      containers:
+        - name: organisation-service
+          image: ihab0/organisation-service:latest
+          ports:
+            - containerPort: 8090

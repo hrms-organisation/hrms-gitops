@@ -7,3 +7,6 @@ resources:
  # - sealed-secret.yaml
 
 
+images:
+  - name: ihab0/recruitment-service
+    newTag: latest

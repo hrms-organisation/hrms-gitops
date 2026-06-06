@@ -6,6 +6,7 @@ resources:
   - service.yml
  # - sealed-secret.yaml
 
+
 images:
-  - name: ihab0/leave-service
+  - name: ihab0/organisation-service
     newTag: latest

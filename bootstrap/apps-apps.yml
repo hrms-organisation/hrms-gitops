@@ -1,21 +1,26 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
+
 metadata:
-  name: hrms-databases
+  name: hrms-apps
   namespace: argocd
+
 spec:
   project: default
 
   source:
-    repoURL: https://github.com/IhabChouaibi/hrms-gitops.git
+    repoURL: https://github.com/hrms-organisation/hrms-gitops.git
     targetRevision: main
-    path: databases
+    path: apps
 
   destination:
     server: https://kubernetes.default.svc
-    namespace: databases
+    namespace: hrms
 
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true

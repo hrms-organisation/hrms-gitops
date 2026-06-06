@@ -5,5 +5,7 @@ resources:
   - deployment.yml
   - service.yml
  # - sealed-secret.yaml
-
+images:
+  - name: ihab0/employee-service
+    newTag: latest
 

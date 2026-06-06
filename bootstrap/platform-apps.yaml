@@ -7,7 +7,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/IhabChouaibi/hrms-gitops.git
+    repoURL: https://github.com/hrms-organisation/hrms-gitops
     targetRevision: main
     path: platform
 
