@@ -18,3 +18,21 @@ spec:
           image: clamav/clamav:latest
           ports:
             - containerPort: 3310
+          volumeMounts:
+            - name: clamav-storage
+              mountPath: /var/lib/clamav
+          livenessProbe:
+            tcpSocket:
+              port: 3310
+            initialDelaySeconds: 120
+            periodSeconds: 30
+          readinessProbe:
+            tcpSocket:
+              port: 3310
+            initialDelaySeconds: 120
+            periodSeconds: 30
+
+      volumes:
+        - name: clamav-storage
+          persistentVolumeClaim:
+            claimName: clamav-pvc

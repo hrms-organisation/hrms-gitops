@@ -4,10 +4,13 @@ metadata:
   name: minio
   namespace: platform
 spec:
+  serviceName: minio
   replicas: 1
+
   selector:
     matchLabels:
       app: minio
+
   template:
     metadata:
       labels:
@@ -16,16 +19,46 @@ spec:
       containers:
         - name: minio
           image: minio/minio
+
           args:
             - server
             - /data
-            - "--console-address=:9001"
+            - --console-address=:9001
+
           ports:
             - containerPort: 9000
             - containerPort: 9001
+
           env:
             - name: MINIO_ROOT_USER
               value: minioadmin
             - name: MINIO_ROOT_PASSWORD
               value: minioadmin
 
+          volumeMounts:
+            - name: minio-data
+              mountPath: /data
+
+          livenessProbe:
+            httpGet:
+              path: /minio/health/live
+              port: 9000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+
+          readinessProbe:
+            httpGet:
+              path: /minio/health/live
+              port: 9000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+
+  volumeClaimTemplates:
+    - metadata:
+        name: minio-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
