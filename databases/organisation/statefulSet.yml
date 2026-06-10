@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql-leave
+  name: mysql-organisation
   namespace: databases
 spec:
   serviceName: mysql-organisation
@@ -9,7 +9,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql-leave
+      app: mysql-organisation
   template:
     metadata:
       labels:
