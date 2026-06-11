@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/hrms-organisation/hrms-gitops.git
     targetRevision: main
-    path: bootsrap
+    path: bootstrap
 
   destination:
     server: https://kubernetes.default.svc
