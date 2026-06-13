@@ -9,3 +9,5 @@ resources:
   - leave-service
   - presence-service
   - gateway-service
+  - config-service
+  - dicovery-service
